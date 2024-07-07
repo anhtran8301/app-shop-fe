@@ -1,12 +1,12 @@
-// ** Next
+//** Next
 import { NextPage } from 'next'
 import Image from 'next/image'
 import Link from 'next/link'
 
-// **React
+//**React
 import { useState } from 'react'
 
-// ** Mui
+//** Mui
 import {
   Box,
   Button,
@@ -19,19 +19,22 @@ import {
   useTheme
 } from '@mui/material'
 
-// ** Components
+//** Components
 import CustomTextField from 'src/components/text-field'
 import IconifyIcon from 'src/components/Icon'
 
-// ** Forms
+//** Forms
 import { Controller, useForm } from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { EMAIL_REG, PASSWORD_REG } from 'src/configs/regex'
 
-// **Image
+//** Image
 import LoginDark from '/public/images/login-dark.png'
 import LoginLight from '/public/images/login-light.png'
+
+//** Hooks
+import { useAuth } from 'src/hooks/useAuth'
 
 type TProps = {}
 
@@ -44,6 +47,9 @@ const LoginPage: NextPage<TProps> = () => {
   //State
   const [showPassword, setShowPassword] = useState(false)
   const [isRemember, setIsRemember] = useState(true)
+
+  //**  Context
+  const { login } = useAuth()
 
   //** theme
   const theme = useTheme()
@@ -75,7 +81,9 @@ const LoginPage: NextPage<TProps> = () => {
   })
 
   const onSubmit = (data: { email: string; password: string }) => {
-    console.log('data', { data, errors })
+    if (!Object.keys(errors)?.length) {
+      login({ ...data, rememberMe: isRemember })
+    }
   }
 
   return (
@@ -214,7 +222,7 @@ const LoginPage: NextPage<TProps> = () => {
               <Link
                 href='/register'
                 style={{
-                  color: theme.palette.mode === 'light' ? theme.palette.common.black : theme.palette.common.white
+                  color: theme.palette.primary.main
                 }}
               >
                 {'Register'}
