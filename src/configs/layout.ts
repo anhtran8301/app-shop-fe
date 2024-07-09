@@ -1,55 +1,27 @@
 export const VerticalItems = [
     {
-        title: "Parent 1",
+        title: "System",
         icon: "ic:outline-more",
         path: "/",
         childrens: [
             {
-                title: "Child 1 1",
+                title: "Product",
                 icon: "ic:outline-more",
-                path: "/",
+                path: "/product",
                 childrens: [
                     {
-                        title: "Child 1 1 1",
+                        title: "Product type",
                         icon: "ic:outline-more",
-                        path: "/",
-                    },
-                    {
-                        title: "Child 1 1 2",
-                        icon: "ic:outline-more",
-                        path: "/",
+                        path: "/product-type",
                     },
                 ],
             },
         ],
     },
     {
-        title: "Parent 2",
+        title: "User",
         icon: "ic:outline-more",
-        path: "/",
-        childrens: [
-            {
-                title: "Child 2 1",
-                icon: "ic:outline-more",
-                path: "/",
-                childrens: [
-                    {
-                        title: "Child 2 1 1",
-                        icon: "ic:outline-more",
-                        path: "/",
-                    },
-                    {
-                        title: "Child 2 1 2",
-                        icon: "ic:outline-more",
-                        path: "/",
-                    },
-                    {
-                        title: "Child 2 1 3",
-                        icon: "ic:outline-more",
-                        path: "/",
-                    },
-                ],
-            },
-        ],
+        path: "/user",
+        
     },
 ]

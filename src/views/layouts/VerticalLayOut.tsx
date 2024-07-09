@@ -38,17 +38,15 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: prop => prop !== 'open' })
         easing: theme.transitions.easing.sharp,
         duration: theme.transitions.duration.leavingScreen
       }),
-      width: theme.spacing(7),
+      width: theme.spacing(20),
       [theme.breakpoints.up('sm')]: {
-        width: theme.spacing(9)
+        width: theme.spacing(20)
       }
     })
   }
 }))
 
 const VerticalLayOut: NextPage<TProps> = ({ open, toggleDrawer }) => {
-  
-
   return (
     <Drawer variant='permanent' open={open}>
       <Toolbar
@@ -64,7 +62,7 @@ const VerticalLayOut: NextPage<TProps> = ({ open, toggleDrawer }) => {
         </IconButton>
       </Toolbar>
       <Divider />
-      <ListVerticalLayout />
+      <ListVerticalLayout open={open}/>
     </Drawer>
   )
 }

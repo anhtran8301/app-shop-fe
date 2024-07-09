@@ -63,8 +63,8 @@ const LoginPage: NextPage<TProps> = () => {
   })
 
   const defaultValues: TDefaultValue = {
-    email: '',
-    password: ''
+    email: 'admin@gmail.com',
+    password: '123456789Kha@'
   }
 
   const {
@@ -72,10 +72,7 @@ const LoginPage: NextPage<TProps> = () => {
     control,
     formState: { errors }
   } = useForm({
-    defaultValues: {
-      email: '',
-      password: ''
-    },
+    defaultValues,
     mode: 'onBlur',
     resolver: yupResolver(schema)
   })
