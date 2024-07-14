@@ -21,7 +21,7 @@ const AclGuard = (props: AclGuardProps) => {
   const { aclAbilities, children, guestGuard = false, authGuard = true } = props
 
   const auth = useAuth()
-  const permissionUser = auth.user?.role.permissions ?? []
+  const permissionUser = auth.user?.role?.permissions ?? []
   const router = useRouter()
 
   let ability: AppAbility
@@ -31,7 +31,7 @@ const AclGuard = (props: AclGuardProps) => {
   }
 
   // If guestGuard or noGuard is true or any error page
-  if ((guestGuard || router.route === '/500', router.route === '/404', !authGuard)) {
+  if ((guestGuard || router.route === '/500' || router.route === '/404' || !authGuard)) {
     if (auth.user && ability) {
       return <AbilityContext.Provider value={ability}>{children}</AbilityContext.Provider>
     } else {
