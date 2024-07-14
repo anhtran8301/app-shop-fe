@@ -1,3 +1,8 @@
 {
-    "Account": "Account"
+    "Account": "Account",
+    "my_profile": "My profile",
+    "enter_your_email": "Enter your email",
+    "Role": "Role",
+    "enter_your_role": "Enter your role"
+
 }
