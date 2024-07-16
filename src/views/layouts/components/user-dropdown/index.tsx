@@ -187,10 +187,15 @@ const UserDropdown = (props: TProps) => {
         </Box>
         <Divider />
         <MenuItem onClick={handleNavigateMyProfile}>
-          <Avatar /> {t('my_profile')}
+          <Avatar>
+            <IconifyIcon icon='ph:user-thin' />
+          </Avatar>{' '}
+          {t('my_profile')}
         </MenuItem>
         <MenuItem onClick={logout}>
-          <ListItemIcon>{/* <Logout fontSize='small' /> */}</ListItemIcon>
+          <Avatar sx={{ backgroundColor: 'transparent' }}>
+            <IconifyIcon icon='material-symbols-light:logout' />
+          </Avatar>
           Logout
         </MenuItem>
       </Menu>

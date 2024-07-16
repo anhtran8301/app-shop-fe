@@ -44,6 +44,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from 'src/stores'
 import { updateAuthMeAsync } from 'src/stores/apps/auth/actions'
 import { resetInitialState } from 'src/stores/apps/auth'
+import Spinner from 'src/components/spinner'
 
 type TProps = {}
 
@@ -170,7 +171,7 @@ const MyProfilePage: NextPage<TProps> = () => {
 
   return (
     <>
-      {loading || (isLoading && <FallbackSpinner />)}
+      {loading || (isLoading && <Spinner />)}
       <form onSubmit={handleSubmit(onSubmit)} autoComplete='off' noValidate>
         <Grid container>
           <Grid
