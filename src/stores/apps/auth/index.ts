@@ -4,7 +4,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
 // ** Axios Imports
 import axios from 'axios'
-import { registerAuthAsync, updateAuthMeAsync } from './actions'
+import { changePasswordMeAsync, registerAuthAsync, updateAuthMeAsync } from './actions'
 
 interface DataParams {
   q: string
@@ -26,7 +26,10 @@ const initialState = {
   typeError: '',
   isSuccessUpdateMe: true,
   isErrorUpdateMe: false,
-  messageUpdateMe: ''
+  messageUpdateMe: '',
+  isSuccessChangePassword: true,
+  isErrorChangePassword: false,
+  messageChangePassword: ''
 }
 
 export const authUsersSlice = createSlice({
@@ -43,6 +46,10 @@ export const authUsersSlice = createSlice({
       state.isSuccessUpdateMe = false
       state.isErrorUpdateMe = true
       state.messageUpdateMe = ''
+
+      state.isSuccessChangePassword = true
+      state.isErrorChangePassword = false
+      state.messageChangePassword = ''
     }
   },
   extraReducers: builder => {
@@ -51,7 +58,6 @@ export const authUsersSlice = createSlice({
       state.isLoading = true
     })
     builder.addCase(registerAuthAsync.fulfilled, (state, action) => {
-      console.log('action', { action })
       state.isLoading = false
       state.isSuccess = !!action.payload?.data?.email
       state.isError = !action.payload?.data?.email
@@ -71,7 +77,6 @@ export const authUsersSlice = createSlice({
       state.isLoading = true
     })
     builder.addCase(updateAuthMeAsync.fulfilled, (state, action) => {
-      console.log('action', { action })
       state.isLoading = false
       state.isSuccessUpdateMe = !!action.payload?.data?.email
       state.isErrorUpdateMe = !action.payload?.data?.email
@@ -83,7 +88,26 @@ export const authUsersSlice = createSlice({
       state.typeError = ''
       state.isSuccessUpdateMe = false
       state.isErrorUpdateMe = false
-      state.messageUpdateMe = ""
+      state.messageUpdateMe = ''
+    })
+
+    // ** Change password me
+    builder.addCase(changePasswordMeAsync.pending, (state, action) => {
+      state.isLoading = true
+    })
+    builder.addCase(changePasswordMeAsync.fulfilled, (state, action) => {
+      state.isLoading = false
+      state.isSuccessChangePassword = !!action.payload?.data
+      state.isErrorChangePassword = !action.payload?.data
+      state.messageChangePassword = action.payload?.message
+      state.typeError = action.payload?.typeError
+    })
+    builder.addCase(changePasswordMeAsync.rejected, (state, action) => {
+      state.isLoading = false
+      state.typeError = ''
+      state.isSuccessChangePassword = false
+      state.isErrorChangePassword = false
+      state.messageChangePassword = ''
     })
   }
 })
