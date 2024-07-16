@@ -14,3 +14,4 @@ const Index: NextPage<TProps> = () => {
 export default Index
 
 Index.getLayout = (page: React.ReactNode) => <LayoutNotApp>{page}</LayoutNotApp>
+
