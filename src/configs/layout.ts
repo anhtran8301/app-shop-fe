@@ -4,7 +4,6 @@ export const VerticalItems = [
   {
     title: 'Hệ thống',
     icon: 'eos-icons:file-system-outlined',
-    path: '/',
     childrens: [
       {
         title: 'Người dùng',

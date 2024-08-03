@@ -1,7 +1,7 @@
 import { Box, InputLabel, InputLabelProps, MenuItem, MenuItemProps, Select, SelectProps, styled } from '@mui/material'
 import { useTranslation } from 'react-i18next'
 
-interface ICustomSelect extends SelectProps {
+type TCustomSelect = SelectProps & {
   options: { label: string; value: string }[]
 }
 
@@ -12,14 +12,14 @@ const StyledSelect = styled(Select)<SelectProps>(({ theme }) => ({
     boxSizing: 'border-box'
   },
   legend: {
-    display: "none"
+    display: 'none'
   },
-  "svg": {
-    top: "calc(50% - .6em) !important",
+  svg: {
+    top: 'calc(50% - .6em) !important'
   },
-  ".MuiOutlinedInput-notChedOutline": {
-    top: "-4px !important",
-    bottom: "2px !important",
+  '.MuiOutlinedInput-notChedOutline': {
+    top: '-4px !important',
+    bottom: '2px !important'
   }
 }))
 
@@ -32,7 +32,7 @@ const CustomPlaceHolder = styled(InputLabel)<InputLabelProps>(({ theme }) => ({
 
 const StyledMenuItem = styled(MenuItem)<MenuItemProps>(({ theme }) => ({}))
 
-const CustomSelect = (props: ICustomSelect) => {
+const CustomSelect = (props: TCustomSelect) => {
   const { value, label, onChange, fullWidth, placeholder, options, ...rest } = props
 
   const { t } = useTranslation()
