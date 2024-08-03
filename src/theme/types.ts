@@ -9,7 +9,8 @@ declare module '@mui/material/styles' {
       avatarBg: string
       darkPaperBg: string
       lightPaperBg: string
-      tableHeaderBg: string
+      tableHeaderBg: string,
+      borderColor: string
     }
   }
 

@@ -42,10 +42,11 @@ import { useDispatch, useSelector } from 'react-redux'
 
 // ** Stores
 import { AppDispatch, RootState } from 'src/stores'
-import { updateAuthMeAsync } from 'src/stores/apps/auth/actions'
-import { resetInitialState } from 'src/stores/apps/auth'
+import { updateAuthMeAsync } from 'src/stores/auth/actions'
+import { resetInitialState } from 'src/stores/auth'
 import Spinner from 'src/components/spinner'
 import CustomSelect from 'src/components/custom-select'
+import CustomModal from 'src/components/custom-modal'
 
 type TProps = {}
 
@@ -80,10 +81,10 @@ const MyProfilePage: NextPage<TProps> = () => {
   )
 
   const schema = yup.object().shape({
-    email: yup.string().required('The field is required').matches(EMAIL_REG, 'The field is must email type'),
+    email: yup.string().required(t('required_field')).matches(EMAIL_REG, 'The field is must email type'),
     fullName: yup.string().notRequired(),
-    phoneNumber: yup.string().required('The field is required').min(8, 'The phone number min is 8 numbers'),
-    role: yup.string().required('The field is required'),
+    phoneNumber: yup.string().required(t('required_field')).min(8, 'The phone number min is 8 numbers'),
+    role: yup.string().required(t('required_field')),
     city: yup.string().notRequired(),
     address: yup.string().notRequired()
   })
@@ -279,7 +280,7 @@ const MyProfilePage: NextPage<TProps> = () => {
                           sx={{
                             fontSize: '13px',
                             marginBottom: '4px',
-                            display: "block",
+                            display: 'block',
                             color: errors?.role
                               ? theme.palette.error.main
                               : `rgba(${theme.palette.customColors.main}, 0.42)`
@@ -301,10 +302,8 @@ const MyProfilePage: NextPage<TProps> = () => {
                             sx={{
                               color: errors?.role
                                 ? theme.palette.error.main
-                                : `rgba(${theme.palette.customColors.main}, 0.42)`,
-                                
+                                : `rgba(${theme.palette.customColors.main}, 0.42)`
                             }}
-                            
                           >
                             {errors?.email?.message}
                           </FormHelperText>
@@ -376,7 +375,7 @@ const MyProfilePage: NextPage<TProps> = () => {
                           sx={{
                             fontSize: '13px',
                             marginBottom: '4px',
-                            display: "block",
+                            display: 'block',
                             color: errors?.role
                               ? theme.palette.error.main
                               : `rgba(${theme.palette.customColors.main}, 0.42)`
@@ -398,10 +397,8 @@ const MyProfilePage: NextPage<TProps> = () => {
                             sx={{
                               color: errors?.role
                                 ? theme.palette.error.main
-                                : `rgba(${theme.palette.customColors.main}, 0.42)`,
-                                
+                                : `rgba(${theme.palette.customColors.main}, 0.42)`
                             }}
-                            
                           >
                             {errors?.email?.message}
                           </FormHelperText>

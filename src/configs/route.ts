@@ -7,14 +7,15 @@ export const ROUTE_CONFIG = {
     USER: '/system/user'
   },
   MANAGE_PRODUCT: {
-   PRODUCT: '/manage-product/products',
-   MANAGE_ORDER: '/manage-product/orders',
-   MANAGE_REVIEW: '/manage-product/reviews',
-   MANAGE_TYPE_PRODUCT: '/manage-product/type-products'
+    PRODUCT: '/manage-product/products',
+    MANAGE_ORDER: '/manage-product/orders',
+    MANAGE_REVIEW: '/manage-product/reviews',
+    MANAGE_TYPE_PRODUCT: '/manage-product/type-products'
   },
   SETTINGS: {
     CITY: '/settings/cities',
     PAYMENT_TYPE: '/settings/payment-type',
     DELIVERY_TYPE: '/settings/delivery-type'
-  }
+  },
+  DASHBOARD: '/dashboard'
 }

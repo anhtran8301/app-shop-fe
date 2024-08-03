@@ -1,5 +1,7 @@
 'use client'
 import Head from 'next/head'
+
+// ** layouts
 import LayoutNotApp from 'src/views/layouts/LayoutNotApp'
 
 export default function Home() {

@@ -1,7 +1,6 @@
 import { Box, Modal, ModalProps, styled } from '@mui/material'
 
 interface ICustomModal extends ModalProps {
-  handleClose: () => void
 }
 
 const StyleModal = styled(Modal)<ModalProps>(({ theme }) => ({
@@ -9,10 +8,10 @@ const StyleModal = styled(Modal)<ModalProps>(({ theme }) => ({
 }))
 
 const CustomModal = (props: ICustomModal) => {
-  const { children, open, handleClose } = props
+  const { children, open, onClose } = props
 
   return (
-    <StyleModal open={open} onClose={handleClose} aria-labelledby='modal-modal-title'>
+    <StyleModal open={open} onClose={onClose} aria-labelledby='modal-modal-title'>
       <Box
         sx={{
           height: '100%',
