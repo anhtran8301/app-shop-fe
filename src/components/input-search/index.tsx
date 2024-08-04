@@ -1,13 +1,22 @@
+// ** React
+import { useEffect, useState } from 'react'
+
 // ** Mui
 import { InputBase, styled, useTheme } from '@mui/material'
 
 // ** Translate
 import { useTranslation } from 'react-i18next'
 
+// ** Custom hooks
+import { useDebounce } from 'src/hooks/useDebounce'
+
 // ** Components
 import IconifyIcon from '../Icon'
 
-interface IInputSearch {}
+interface IInputSearch {
+  value: string
+  onChange: (value: string) => void
+}
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
@@ -41,20 +50,39 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
     width: '100%',
     padding: theme.spacing(1, 1, 1, 0),
     // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    paddingLeft: `calc(1em + ${theme.spacing(4)})`
   }
 }))
 
 const InputSearch = (props: IInputSearch) => {
+  // ** Props
+  const { value, onChange } = props
+
+  // ** State
+  const [search, setSearch] = useState(value)
+  const debounceSearch = useDebounce(search, 300)
+
+  // ** Translate
   const { t } = useTranslation()
+
+  // ** Theme
   const theme = useTheme()
+
+  useEffect(() => {
+    onChange(debounceSearch)
+  }, [debounceSearch])
 
   return (
     <Search>
       <SearchIconWrapper>
         <IconifyIcon icon='material-symbols-light:search' />
       </SearchIconWrapper>
-      <StyledInputBase placeholder='Search…' inputProps={{ 'aria-label': 'search' }} />
+      <StyledInputBase
+        value={search}
+        placeholder='Search…'
+        inputProps={{ 'aria-label': 'search' }}
+        onChange={e => setSearch(e.target.value)}
+      />
     </Search>
   )
 }

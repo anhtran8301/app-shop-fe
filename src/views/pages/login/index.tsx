@@ -145,7 +145,7 @@ const LoginPage: NextPage<TProps> = () => {
           }}
         >
           <Typography component='h1' variant='h5'>
-            Sign in
+            {t('Login')}
           </Typography>
           <form onSubmit={handleSubmit(onSubmit)} autoComplete='off' noValidate>
             <Box sx={{ mt: 2, width: '300px' }}>
@@ -180,7 +180,7 @@ const LoginPage: NextPage<TProps> = () => {
                   <CustomTextField
                     required
                     fullWidth
-                    label='Password'
+                    label={t('Password')}
                     onChange={onChange}
                     onBlur={onBlur}
                     value={value}
@@ -217,12 +217,12 @@ const LoginPage: NextPage<TProps> = () => {
                     onChange={e => setIsRemember(e.target.checked)}
                   />
                 }
-                label='Remember me'
+                label={t('Remember_me')}
               />
-              <Typography>Forgot password?</Typography>
+              <Typography>{t('Forgot_password')}</Typography>
             </Box>
             <Button type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2 }}>
-              Sign In
+              {t('Login')}
             </Button>
             <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}>
               <Typography>{"Don't have an account?"}</Typography>
@@ -232,7 +232,7 @@ const LoginPage: NextPage<TProps> = () => {
                   color: theme.palette.primary.main
                 }}
               >
-                {'Register'}
+                {t('Register')}
               </Link>
             </Box>
             <Typography sx={{ textAlign: 'center', mt: 2, mb: 2 }}>Or</Typography>

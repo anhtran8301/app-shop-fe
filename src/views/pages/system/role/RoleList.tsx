@@ -8,13 +8,8 @@ import toast from 'react-hot-toast'
 import { useTranslation } from 'react-i18next'
 
 // ** Mui
-import {
-  Box,
-  useTheme,
-  Grid,
-  Card
-} from '@mui/material'
-import { GridColDef } from '@mui/x-data-grid'
+import { Box, useTheme, Grid, Card } from '@mui/material'
+import { GridColDef, GridSortModel } from '@mui/x-data-grid'
 
 // ** Redux
 import { useDispatch, useSelector } from 'react-redux'
@@ -27,13 +22,14 @@ import { PAGE_SIZE_OPTION } from 'src/configs/gridConfig'
 
 // ** Components
 import CustomDataGrid from 'src/components/custom-data-grid'
-import CustomPagination from 'src/components/custom-pagination'
 import GridEdit from 'src/components/grid-edit'
 import GridDelete from 'src/components/grid-delete'
 import GridCreate from 'src/components/grid-create'
 import InputSearch from 'src/components/input-search'
 import CreateEditRole from './components/CreateEditRole'
 import Spinner from 'src/components/spinner'
+import ConfirmationDialog from 'src/components/confirmation-dialog'
+import IconifyIcon from 'src/components/Icon'
 
 type TProps = {}
 
@@ -45,6 +41,12 @@ const RoleListPage: NextPage<TProps> = () => {
     open: false,
     id: ''
   })
+  const [openDeleteRole, setOpenDeleteRole] = useState({
+    open: false,
+    id: ''
+  })
+  const [sortBy, setSortBy] = useState('created asc')
+  const [searchBy, setSearchBy] = useState('')
 
   // Translate
   const { t } = useTranslation()
@@ -68,8 +70,22 @@ const RoleListPage: NextPage<TProps> = () => {
   //** theme
   const theme = useTheme()
 
+  // ** fetch
   const handleGetListRoles = () => {
-    dispatch(getAllRolesAsync({ params: { limit: -1, page: -1 } }))
+    dispatch(getAllRolesAsync({ params: { limit: -1, page: -1, search: searchBy, order: sortBy } }))
+  }
+
+  // ** Handles
+  const handleCloseConfirmDeleteRole = () => {
+    setOpenDeleteRole({
+      open: false,
+      id: ''
+    })
+  }
+
+  const handleSort = (sort: GridSortModel) => {
+    const sortOption = sort[0]
+    setSortBy(`${sortOption.field} ${sortOption.sort}`)
   }
 
   const handleCloseCreateEdit = () => {
@@ -79,19 +95,21 @@ const RoleListPage: NextPage<TProps> = () => {
     })
   }
 
-  const handleOnchangePagination = (page: number, pageSize: number) => {}
-
-  const PaginationComponent = () => {
-    return (
-      <CustomPagination
-        onChangePagination={handleOnchangePagination}
-        pageSizeOptions={PAGE_SIZE_OPTION}
-        pageSize={pageSize}
-        page={page}
-        rowLength={roles.total}
-      />
-    )
+  const handleDeleteRole = () => {
+    dispatch(deleteRoleAsync(openDeleteRole.id))
   }
+
+  // const PaginationComponent = () => {
+  //   return (
+  //     <CustomPagination
+  //       onChangePagination={handleOnchangePagination}
+  //       pageSizeOptions={PAGE_SIZE_OPTION}
+  //       pageSize={pageSize}
+  //       page={page}
+  //       rowLength={roles.total}
+  //     />
+  //   )
+  // }
 
   const columns: GridColDef[] = [
     {
@@ -105,18 +123,33 @@ const RoleListPage: NextPage<TProps> = () => {
       minWidth: 150,
       sortable: false,
       align: 'left',
-      renderCell: row => {
+      renderCell: params => {
+        const { row } = params
+
         return (
-          <Box>
-            <GridEdit
-              onClick={() =>
-                setOpenCreateEdit({
-                  open: true,
-                  id: String(row.id)
-                })
-              }
-            />
-            <GridDelete onClick={() => dispatch(deleteRoleAsync(String(row.id)))} />
+          <Box sx={{width: '100%' }}>
+            {!row?.permissions?.some((per: string) => ['ADMIN.GRANTED', 'BASIC.PUBLIC']?.includes(per)) ? (
+              <>
+                <GridEdit
+                  onClick={() =>
+                    setOpenCreateEdit({
+                      open: true,
+                      id: String(params.id)
+                    })
+                  }
+                />
+                <GridDelete
+                  onClick={() =>
+                    setOpenDeleteRole({
+                      open: true,
+                      id: String(params.id)
+                    })
+                  }
+                />
+              </>
+            ) : (
+              <IconifyIcon icon='material-symbols-light:lock-outline' fontSize={30} />
+            )}
           </Box>
         )
       }
@@ -125,7 +158,7 @@ const RoleListPage: NextPage<TProps> = () => {
 
   useEffect(() => {
     handleGetListRoles()
-  }, [])
+  }, [sortBy, searchBy])
 
   useEffect(() => {
     if (isSuccessCreateEdit) {
@@ -148,6 +181,7 @@ const RoleListPage: NextPage<TProps> = () => {
       toast.success(t('delete-role-success'))
       handleGetListRoles()
       dispatch(resetInitialState())
+      handleCloseConfirmDeleteRole()
     } else if (isErrorDelete && messageErrorDelete) {
       toast.error(t(messageErrorDelete))
       dispatch(resetInitialState())
@@ -156,6 +190,14 @@ const RoleListPage: NextPage<TProps> = () => {
 
   return (
     <>
+      <ConfirmationDialog
+        open={openDeleteRole.open}
+        handleClose={handleCloseConfirmDeleteRole}
+        handleCancel={handleCloseConfirmDeleteRole}
+        handleConfirm={handleDeleteRole}
+        title={t('title_delete_role')}
+        description={t('confirm_delete_role')}
+      />
       <CreateEditRole open={openCreateEdit.open} onClose={handleCloseCreateEdit} idRole={openCreateEdit.id} />
       {isLoading && <Spinner />}
       <Box
@@ -172,7 +214,7 @@ const RoleListPage: NextPage<TProps> = () => {
             <Card>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
                 <Box sx={{ width: '200px' }}>
-                  <InputSearch />
+                  <InputSearch value={searchBy} onChange={(value: string) => setSearchBy(value)} />
                 </Box>
                 <GridCreate
                   onClick={() =>
@@ -190,11 +232,14 @@ const RoleListPage: NextPage<TProps> = () => {
                 // checkboxSelection
                 autoHeight
                 hideFooter
+                sortingOrder={['desc', 'asc']}
+                sortingMode='server'
+                onSortModelChange={handleSort}
                 getRowId={row => row._id}
                 disableRowSelectionOnClick
-                slots={{
-                  pagination: PaginationComponent
-                }}
+                // slots={{
+                //   pagination: PaginationComponent
+                // }}
                 disableColumnFilter
                 disableColumnMenu
               />
