@@ -15,7 +15,7 @@ const GridDelete = (props: IGridDelete) => {
   return (
     <Tooltip title={t('Delete')}>
       <IconButton onClick={onClick} disabled={disabled}>
-        <IconifyIcon icon='mdi:delete-outline' />
+        <IconifyIcon icon='mdi:delete-outline' color='red'/>
       </IconButton>
     </Tooltip>
   )

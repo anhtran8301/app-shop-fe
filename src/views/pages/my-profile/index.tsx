@@ -47,6 +47,7 @@ import { resetInitialState } from 'src/stores/auth'
 import Spinner from 'src/components/spinner'
 import CustomSelect from 'src/components/custom-select'
 import CustomModal from 'src/components/custom-modal'
+import { getAllRoles } from 'src/services/role'
 
 type TProps = {}
 
@@ -63,7 +64,7 @@ const MyProfilePage: NextPage<TProps> = () => {
   // ** State
   const [loading, setLoading] = useState(false)
   const [avatar, setAvatar] = useState('')
-  const [roleId, setRoleId] = useState('')
+  const [optionRoles, setOptionRoles] = useState<{ label: string; value: string }[]>([])
 
   // Router
   const router = useRouter()
@@ -109,6 +110,7 @@ const MyProfilePage: NextPage<TProps> = () => {
     resolver: yupResolver(schema)
   })
 
+  // ** Fetch api
   const fetchGetAuthMe = async () => {
     setLoading(true)
     await getAuthMe()
@@ -116,19 +118,38 @@ const MyProfilePage: NextPage<TProps> = () => {
         setLoading(false)
         const data = response?.data
         if (data) {
-          setRoleId(data?.role?._id)
           setAvatar(data?.avatar)
           reset({
             email: data?.email,
             address: data?.address,
             city: data?.city,
             phoneNumber: data?.phoneNumber,
-            role: data?.role?.name,
+            role: data?.role?._id,
             fullName: toFullName(data?.lastName, data?.middleName, data?.firstName, i18n.language)
           })
         }
       })
       .catch(() => {
+        setLoading(false)
+      })
+  }
+
+  const fetchAllRoles = async () => {
+    setLoading(true)
+    await getAllRoles({ params: { limit: -1, page: -1 } })
+      .then(res => {
+        const data = res?.data?.roles
+        if (data) {
+          setOptionRoles(
+            data?.map((item: { name: string; _id: string }) => ({
+              label: item.name,
+              value: item._id
+            }))
+          )
+        }
+        setLoading(false)
+      })
+      .catch(e => {
         setLoading(false)
       })
   }
@@ -149,6 +170,10 @@ const MyProfilePage: NextPage<TProps> = () => {
     }
   }, [isErrorUpdateMe, isSuccessUpdateMe, messageUpdateMe])
 
+  useEffect(() => {
+    fetchAllRoles()
+  }, [])
+
   const onSubmit = (data: any) => {
     const { firstName, lastName, middleName } = separationFullName(data.fullName, i18n.language)
     dispatch(
@@ -157,7 +182,7 @@ const MyProfilePage: NextPage<TProps> = () => {
         firstName: firstName,
         lastName: lastName,
         middleName: middleName,
-        role: roleId,
+        role: data.role,
         phoneNumber: data.phoneNumber,
         avatar,
         address: data.address
@@ -291,13 +316,13 @@ const MyProfilePage: NextPage<TProps> = () => {
                         <CustomSelect
                           fullWidth
                           onChange={onChange}
-                          options={[]}
+                          options={optionRoles}
                           error={Boolean(errors?.role)}
                           onBlur={onBlur}
                           value={value}
                           placeholder={t('enter_your_role')}
                         />
-                        {errors?.email?.message && (
+                        {errors?.role?.message && (
                           <FormHelperText
                             sx={{
                               color: errors?.role
@@ -305,7 +330,7 @@ const MyProfilePage: NextPage<TProps> = () => {
                                 : `rgba(${theme.palette.customColors.main}, 0.42)`
                             }}
                           >
-                            {errors?.email?.message}
+                            {errors?.role?.message}
                           </FormHelperText>
                         )}
                       </Box>
@@ -376,7 +401,7 @@ const MyProfilePage: NextPage<TProps> = () => {
                             fontSize: '13px',
                             marginBottom: '4px',
                             display: 'block',
-                            color: errors?.role
+                            color: errors?.city
                               ? theme.palette.error.main
                               : `rgba(${theme.palette.customColors.main}, 0.42)`
                           }}
@@ -387,20 +412,20 @@ const MyProfilePage: NextPage<TProps> = () => {
                           fullWidth
                           onChange={onChange}
                           options={[]}
-                          error={Boolean(errors?.role)}
+                          error={Boolean(errors?.city)}
                           onBlur={onBlur}
                           value={value}
                           placeholder={t('enter_your_city')}
                         />
-                        {errors?.email?.message && (
+                        {errors?.city?.message && (
                           <FormHelperText
                             sx={{
-                              color: errors?.role
+                              color: errors?.city
                                 ? theme.palette.error.main
                                 : `rgba(${theme.palette.customColors.main}, 0.42)`
                             }}
                           >
-                            {errors?.email?.message}
+                            {errors?.city?.message}
                           </FormHelperText>
                         )}
                       </Box>
@@ -443,7 +468,7 @@ const MyProfilePage: NextPage<TProps> = () => {
 
         <Box sx={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'flex-end' }}>
           <Button type='submit' variant='contained' sx={{ mt: 3, mb: 2 }}>
-            Change
+            {t("Change")}
           </Button>
         </Box>
       </form>

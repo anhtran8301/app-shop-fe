@@ -53,7 +53,7 @@ const RegisterPage: NextPage<TProps> = () => {
   const router = useRouter()
 
   // ** Translate
-  const {t} = useTranslation()
+  const { t } = useTranslation()
 
   // ** Redux
   const dispatch: AppDispatch = useDispatch()
@@ -63,16 +63,16 @@ const RegisterPage: NextPage<TProps> = () => {
   const theme = useTheme()
 
   const schema = yup.object().shape({
-    email: yup.string().required(t('required_field')).matches(EMAIL_REG, 'The field is must email type'),
+    email: yup.string().required(t('required_field')).matches(EMAIL_REG, t('rules_email')),
     password: yup
       .string()
       .required(t('required_field'))
-      .matches(PASSWORD_REG, 'The password is contain character, special character, number'),
+      .matches(PASSWORD_REG, t('rules_password')),
     confirmPassword: yup
       .string()
       .required(t('required_field'))
-      .matches(PASSWORD_REG, 'The confirmPassword is contain character, special character, number')
-      .oneOf([yup.ref('password'), ''], 'Confirm password is must match with the password')
+      .matches(PASSWORD_REG, t('rules_password'))
+      .oneOf([yup.ref('password'), ''], t("rules_confirm_password"))
   })
 
   const defaultValues: TDefaultValue = {
@@ -163,7 +163,7 @@ const RegisterPage: NextPage<TProps> = () => {
             }}
           >
             <Typography component='h1' variant='h5'>
-              Register
+              {t('Register')}
             </Typography>
             <form onSubmit={handleSubmit(onSubmit)} autoComplete='off' noValidate>
               <Box sx={{ mt: 2, width: '300px' }}>
@@ -176,10 +176,10 @@ const RegisterPage: NextPage<TProps> = () => {
                     <CustomTextField
                       required
                       fullWidth
-                      label='Email'
+                      label={t('Email')}
                       onChange={onChange}
                       onBlur={onBlur}
-                      placeholder='Input email'
+                      placeholder={t('enter_your_email')}
                       value={value}
                       error={Boolean(errors?.email)}
                       helperText={errors?.email?.message}
@@ -198,11 +198,11 @@ const RegisterPage: NextPage<TProps> = () => {
                     <CustomTextField
                       required
                       fullWidth
-                      label='Password'
+                      label={t('Password')}
                       onChange={onChange}
                       onBlur={onBlur}
                       value={value}
-                      placeholder='Input password'
+                      placeholder={t('enter_password')}
                       error={Boolean(errors?.password)}
                       helperText={errors?.password?.message}
                       type={showPassword ? 'text' : 'password'}
@@ -235,11 +235,11 @@ const RegisterPage: NextPage<TProps> = () => {
                       required
                       fullWidth
                       autoFocus
-                      label='Confirm password'
+                      label={t('Confirm_password')}
                       onChange={onChange}
                       onBlur={onBlur}
                       value={value}
-                      placeholder='Enter confirm password'
+                      placeholder={t('enter_confirm_password')}
                       error={Boolean(errors?.confirmPassword)}
                       helperText={errors?.confirmPassword?.message}
                       type={showConfirmPassword ? 'text' : 'password'}
@@ -262,7 +262,7 @@ const RegisterPage: NextPage<TProps> = () => {
                 />
               </Box>
               <Button type='submit' fullWidth variant='contained' sx={{ mt: 3, mb: 2 }}>
-                Register
+                {t('Register')}
               </Button>
               <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px' }}>
                 <Typography>{'Do you have already account?'}</Typography>
@@ -272,7 +272,7 @@ const RegisterPage: NextPage<TProps> = () => {
                     color: theme.palette.primary.main
                   }}
                 >
-                  {'Login'}
+                  {t('Login')}
                 </Link>
               </Box>
               <Typography sx={{ textAlign: 'center', mt: 2, mb: 2 }}>Or</Typography>

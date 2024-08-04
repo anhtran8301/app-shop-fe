@@ -2,7 +2,7 @@
 import { useEffect, useState } from 'react'
 
 // ** Mui
-import { Box, Button , IconButton, Typography, useTheme } from '@mui/material'
+import { Box, Button, IconButton, Typography, useTheme } from '@mui/material'
 
 // ** Form
 import { yupResolver } from '@hookform/resolvers/yup'
@@ -26,7 +26,6 @@ import CustomTextField from 'src/components/text-field'
 // ** Services
 import { getDetailsRole } from 'src/services/role'
 
-
 interface ICreateEditRole {
   open: boolean
   onClose: () => void
@@ -39,7 +38,7 @@ const CreateEditRole = (props: ICreateEditRole) => {
 
   // ** Props
   const { open, onClose, idRole } = props
-  
+
   // ** Translate
   const { t } = useTranslation()
 
@@ -112,7 +111,11 @@ const CreateEditRole = (props: ICreateEditRole) => {
       {loading && <Spinner />}
       <CustomModal open={open} onClose={onClose}>
         <Box
-          sx={{ backgroundColor: theme.palette.background.paper, padding: '20px', borderRadius: '15px' }}
+          sx={{
+            padding: '20px',
+            borderRadius: '15px',
+            backgroundColor: theme.palette.customColors.bodyBg
+          }}
           minWidth={{ md: '400px', xs: '80vw' }}
         >
           <Box sx={{ display: 'flex', justifyContent: 'center', position: 'relative', paddingBottom: '20px' }}>
@@ -124,7 +127,14 @@ const CreateEditRole = (props: ICreateEditRole) => {
             </IconButton>
           </Box>
           <form onSubmit={handleSubmit(onSubmit)} autoComplete='off' noValidate>
-            <Box sx={{ width: '100%' }}>
+            <Box
+              sx={{
+                width: '100%',
+                backgroundColor: theme.palette.background.paper,
+                padding: '30px 20px',
+                borderRadius: '15px'
+              }}
+            >
               <Controller
                 control={control}
                 rules={{

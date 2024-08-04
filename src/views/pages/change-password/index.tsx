@@ -71,16 +71,16 @@ const ChangePasswordPage: NextPage<TProps> = () => {
     currentPassword: yup
       .string()
       .required(t('required_field'))
-      .matches(PASSWORD_REG, 'The password is contain character, special character, number'),
+      .matches(PASSWORD_REG, t('rules_password')),
     newPassword: yup
       .string()
       .required(t('required_field'))
-      .matches(PASSWORD_REG, 'The password is contain character, special character, number'),
+      .matches(PASSWORD_REG, t('rules_password')),
     confirmNewPassword: yup
       .string()
       .required(t('required_field'))
-      .matches(PASSWORD_REG, 'The confirmPassword is contain character, special character, number')
-      .oneOf([yup.ref('newPassword'), ''], 'Confirm new password is must match with the new password')
+      .matches(PASSWORD_REG, t('rules_password'))
+      .oneOf([yup.ref('newPassword'), ''], t("rules_confirm_new_password"))
   })
 
   const defaultValues: TDefaultValue = {
