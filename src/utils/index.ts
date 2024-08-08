@@ -47,6 +47,25 @@ export const separationFullName = (fullName: string, language: string) => {
       result.firstName = arrFullName[0]
     }
   }
-  
+
   return result
+}
+
+export const getAllValueOfObject = (obj: any, arrayExclude?: string[]) => {
+  try {
+    const values: any[] = []
+    for (const key in obj) {
+      if (typeof obj[key] === 'object') {
+        values.push(...getAllValueOfObject(obj[key], arrayExclude))
+      } else {
+        if (!arrayExclude?.includes(obj[key])) {
+          values.push(obj[key])
+        }
+      }
+    }
+
+    return values
+  } catch (error) {
+    return []
+  }
 }

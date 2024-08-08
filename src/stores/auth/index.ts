@@ -19,14 +19,17 @@ interface Redux {
 }
 
 const initialState = {
+  // ** Common
   isLoading: false,
   isSuccess: true,
   isError: false,
   message: '',
   typeError: '',
+  // ** Update me
   isSuccessUpdateMe: true,
   isErrorUpdateMe: false,
   messageUpdateMe: '',
+  // ** Change password
   isSuccessChangePassword: true,
   isErrorChangePassword: false,
   messageChangePassword: ''

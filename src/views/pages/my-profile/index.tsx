@@ -65,6 +65,7 @@ const MyProfilePage: NextPage<TProps> = () => {
   const [loading, setLoading] = useState(false)
   const [avatar, setAvatar] = useState('')
   const [optionRoles, setOptionRoles] = useState<{ label: string; value: string }[]>([])
+  const [isDisabledRole, setIsDisabledRole] = useState(false)
 
   // Router
   const router = useRouter()
@@ -85,7 +86,7 @@ const MyProfilePage: NextPage<TProps> = () => {
     email: yup.string().required(t('required_field')).matches(EMAIL_REG, 'The field is must email type'),
     fullName: yup.string().notRequired(),
     phoneNumber: yup.string().required(t('required_field')).min(8, 'The phone number min is 8 numbers'),
-    role: yup.string().required(t('required_field')),
+    role: isDisabledRole ? yup.string().notRequired() : yup.string().required(t('required_field')),
     city: yup.string().notRequired(),
     address: yup.string().notRequired()
   })
@@ -103,7 +104,8 @@ const MyProfilePage: NextPage<TProps> = () => {
     handleSubmit,
     control,
     formState: { errors },
-    reset
+    reset,
+    watch
   } = useForm({
     defaultValues,
     mode: 'onBlur',
@@ -118,6 +120,7 @@ const MyProfilePage: NextPage<TProps> = () => {
         setLoading(false)
         const data = response?.data
         if (data) {
+          setIsDisabledRole(!data?.role?.permissions?.length)
           setAvatar(data?.avatar)
           reset({
             email: data?.email,
@@ -294,49 +297,51 @@ const MyProfilePage: NextPage<TProps> = () => {
                   />
                 </Grid>
                 <Grid item md={6} xs={12}>
-                  <Controller
-                    control={control}
-                    rules={{
-                      required: true
-                    }}
-                    render={({ field: { onChange, onBlur, value } }) => (
-                      <Box>
-                        <InputLabel
-                          sx={{
-                            fontSize: '13px',
-                            marginBottom: '4px',
-                            display: 'block',
-                            color: errors?.role
-                              ? theme.palette.error.main
-                              : `rgba(${theme.palette.customColors.main}, 0.42)`
-                          }}
-                        >
-                          {t('Role')}
-                        </InputLabel>
-                        <CustomSelect
-                          fullWidth
-                          onChange={onChange}
-                          options={optionRoles}
-                          error={Boolean(errors?.role)}
-                          onBlur={onBlur}
-                          value={value}
-                          placeholder={t('enter_your_role')}
-                        />
-                        {errors?.role?.message && (
-                          <FormHelperText
+                  {!isDisabledRole && (
+                    <Controller
+                      control={control}
+                      rules={{
+                        required: true
+                      }}
+                      render={({ field: { onChange, onBlur, value } }) => (
+                        <Box>
+                          <InputLabel
                             sx={{
+                              fontSize: '13px',
+                              marginBottom: '4px',
+                              display: 'block',
                               color: errors?.role
                                 ? theme.palette.error.main
                                 : `rgba(${theme.palette.customColors.main}, 0.42)`
                             }}
                           >
-                            {errors?.role?.message}
-                          </FormHelperText>
-                        )}
-                      </Box>
-                    )}
-                    name='role'
-                  />
+                            {t('Role')}
+                          </InputLabel>
+                          <CustomSelect
+                            fullWidth
+                            onChange={onChange}
+                            options={optionRoles}
+                            error={Boolean(errors?.role)}
+                            onBlur={onBlur}
+                            value={value}
+                            placeholder={t('enter_your_role')}
+                          />
+                          {errors?.role?.message && (
+                            <FormHelperText
+                              sx={{
+                                color: errors?.role
+                                  ? theme.palette.error.main
+                                  : `rgba(${theme.palette.customColors.main}, 0.42)`
+                              }}
+                            >
+                              {errors?.role?.message}
+                            </FormHelperText>
+                          )}
+                        </Box>
+                      )}
+                      name='role'
+                    />
+                  )}
                 </Grid>
               </Grid>
             </Box>
@@ -468,7 +473,7 @@ const MyProfilePage: NextPage<TProps> = () => {
 
         <Box sx={{ width: '100%', height: '100%', display: 'flex', justifyContent: 'flex-end' }}>
           <Button type='submit' variant='contained' sx={{ mt: 3, mb: 2 }}>
-            {t("Change")}
+            {t('Change')}
           </Button>
         </Box>
       </form>
