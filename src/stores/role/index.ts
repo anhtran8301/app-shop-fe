@@ -52,8 +52,8 @@ export const roleSlice = createSlice({
       state.isErrorCreateEdit = true
       state.messageErrorCreateEdit = ''
 
-      state.isSuccessDelete = true
-      state.isErrorDelete = false
+      state.isSuccessDelete = false
+      state.isErrorDelete = true
       state.messageErrorDelete = ''
     }
   },
