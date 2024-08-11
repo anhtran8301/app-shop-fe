@@ -28,6 +28,9 @@ import { getDetailsRole } from 'src/services/role'
 import { getAllValueOfObject } from 'src/utils'
 import { hexToRGBA } from 'src/utils/hex-to-rgba'
 
+// ** Hooks
+import { usePermission } from 'src/hooks/usePermission'
+
 // ** Components
 import CustomDataGrid from 'src/components/custom-data-grid'
 import GridEdit from 'src/components/grid-edit'
@@ -58,6 +61,9 @@ const RoleListPage: NextPage<TProps> = () => {
   const [selectedRow, setSelectedRow] = useState({ id: '', name: '' })
   const [loading, setLoading] = useState<boolean>(false)
   const [isDisablePermission, setIsDisablePermission] = useState<boolean>(false)
+
+  // ** permissions
+  const { VIEW, UPDATE, DELETE, CREATE } = usePermission('SYSTEM.ROLE', ['CREATE', 'VIEW', 'UPDATE', 'DELETE'])
 
   // ** Translate
   const { t } = useTranslation()
