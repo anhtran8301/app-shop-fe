@@ -70,17 +70,17 @@ const ChangePasswordPage: NextPage<TProps> = () => {
   const schema = yup.object().shape({
     currentPassword: yup
       .string()
-      .required(t('required_field'))
-      .matches(PASSWORD_REG, t('rules_password')),
+      .required(t('Required_field'))
+      .matches(PASSWORD_REG, t('Rules_password')),
     newPassword: yup
       .string()
-      .required(t('required_field'))
-      .matches(PASSWORD_REG, t('rules_password')),
+      .required(t('Required_field'))
+      .matches(PASSWORD_REG, t('Rules_password')),
     confirmNewPassword: yup
       .string()
-      .required(t('required_field'))
-      .matches(PASSWORD_REG, t('rules_password'))
-      .oneOf([yup.ref('newPassword'), ''], t("rules_confirm_new_password"))
+      .required(t('Required_field'))
+      .matches(PASSWORD_REG, t('Rules_password'))
+      .oneOf([yup.ref('newPassword'), ''], t("Rules_confirm_new_password"))
   })
 
   const defaultValues: TDefaultValue = {
@@ -188,7 +188,7 @@ const ChangePasswordPage: NextPage<TProps> = () => {
                       onChange={onChange}
                       onBlur={onBlur}
                       value={value}
-                      placeholder={t('enter_password')}
+                      placeholder={t('Enter_password')}
                       error={Boolean(errors?.currentPassword)}
                       helperText={errors?.currentPassword?.message}
                       type={showCurrentPassword ? 'text' : 'password'}
@@ -224,7 +224,7 @@ const ChangePasswordPage: NextPage<TProps> = () => {
                       onChange={onChange}
                       onBlur={onBlur}
                       value={value}
-                      placeholder={t('enter_new_password')}
+                      placeholder={t('Enter_new_password')}
                       error={Boolean(errors?.newPassword)}
                       helperText={errors?.newPassword?.message}
                       type={showNewPassword ? 'text' : 'password'}
@@ -261,7 +261,7 @@ const ChangePasswordPage: NextPage<TProps> = () => {
                       onChange={onChange}
                       onBlur={onBlur}
                       value={value}
-                      placeholder={t('enter_confirm_new_password')}
+                      placeholder={t('Enter_confirm_new_password')}
                       error={Boolean(errors?.confirmNewPassword)}
                       helperText={errors?.confirmNewPassword?.message}
                       type={showConfirmNewPassword ? 'text' : 'password'}

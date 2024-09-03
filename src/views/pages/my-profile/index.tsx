@@ -83,10 +83,10 @@ const MyProfilePage: NextPage<TProps> = () => {
   )
 
   const schema = yup.object().shape({
-    email: yup.string().required(t('required_field')).matches(EMAIL_REG, 'The field is must email type'),
+    email: yup.string().required(t('Required_field')).matches(EMAIL_REG, 'The field is must email type'),
     fullName: yup.string().notRequired(),
-    phoneNumber: yup.string().required(t('required_field')).min(8, 'The phone number min is 8 numbers'),
-    role: isDisabledRole ? yup.string().notRequired() : yup.string().required(t('required_field')),
+    phoneNumber: yup.string().required(t('Required_field')).min(8, 'The phone number min is 8 numbers'),
+    role: isDisabledRole ? yup.string().notRequired() : yup.string().required(t('Required_field')),
     city: yup.string().notRequired(),
     address: yup.string().notRequired()
   })
@@ -159,6 +159,7 @@ const MyProfilePage: NextPage<TProps> = () => {
 
   useEffect(() => {
     fetchGetAuthMe()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [i18n.language])
 
   useEffect(() => {
@@ -171,6 +172,7 @@ const MyProfilePage: NextPage<TProps> = () => {
       }
       dispatch(resetInitialState())
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isErrorUpdateMe, isSuccessUpdateMe, messageUpdateMe])
 
   useEffect(() => {
@@ -267,7 +269,7 @@ const MyProfilePage: NextPage<TProps> = () => {
                     >
                       <Button variant='outlined' sx={{ width: 'auto', display: 'flex', alignItems: 'center', gap: 1 }}>
                         <IconifyIcon icon='ph:camera-thin'></IconifyIcon>
-                        {avatar ? t('change_avatar') : t('upload_avatar')}
+                        {avatar ? t('Change_avatar') : t('Upload_avatar')}
                       </Button>
                     </WrapperFileUpload>
                   </Box>
@@ -288,7 +290,7 @@ const MyProfilePage: NextPage<TProps> = () => {
                         onChange={onChange}
                         onBlur={onBlur}
                         value={value}
-                        placeholder={t('enter_your_email')}
+                        placeholder={t('Enter_your_email')}
                         error={Boolean(errors?.email)}
                         helperText={errors?.email?.message}
                       />
@@ -324,7 +326,7 @@ const MyProfilePage: NextPage<TProps> = () => {
                             error={Boolean(errors?.role)}
                             onBlur={onBlur}
                             value={value}
-                            placeholder={t('enter_your_role')}
+                            placeholder={t('Enter_your_role')}
                           />
                           {errors?.role?.message && (
                             <FormHelperText
@@ -371,7 +373,7 @@ const MyProfilePage: NextPage<TProps> = () => {
                         onChange={onChange}
                         onBlur={onBlur}
                         value={value}
-                        placeholder={t('enter_your_full_name')}
+                        placeholder={t('Enter_your_full_name')}
                         error={Boolean(errors?.fullName)}
                         helperText={errors?.fullName?.message}
                       />
@@ -390,7 +392,7 @@ const MyProfilePage: NextPage<TProps> = () => {
                         onChange={onChange}
                         onBlur={onBlur}
                         value={value}
-                        placeholder={t('enter_your_address')}
+                        placeholder={t('Enter_your_address')}
                       />
                     )}
                     name='address'
@@ -420,7 +422,7 @@ const MyProfilePage: NextPage<TProps> = () => {
                           error={Boolean(errors?.city)}
                           onBlur={onBlur}
                           value={value}
-                          placeholder={t('enter_your_city')}
+                          placeholder={t('Enter_your_city')}
                         />
                         {errors?.city?.message && (
                           <FormHelperText
@@ -458,7 +460,7 @@ const MyProfilePage: NextPage<TProps> = () => {
                         }}
                         onBlur={onBlur}
                         value={value}
-                        placeholder={t('enter_your_phone')}
+                        placeholder={t('Enter_your_phone')}
                         error={Boolean(errors?.phoneNumber)}
                         helperText={errors?.phoneNumber?.message}
                       />

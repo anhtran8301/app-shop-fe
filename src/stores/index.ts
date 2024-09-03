@@ -8,7 +8,9 @@ import role from 'src/stores/role'
 
 export const store = configureStore({
   reducer: {
-    user, auth, role
+    user,
+    auth,
+    role
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
