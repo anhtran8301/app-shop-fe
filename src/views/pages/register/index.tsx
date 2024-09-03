@@ -63,16 +63,16 @@ const RegisterPage: NextPage<TProps> = () => {
   const theme = useTheme()
 
   const schema = yup.object().shape({
-    email: yup.string().required(t('required_field')).matches(EMAIL_REG, t('rules_email')),
+    email: yup.string().required(t('Required_field')).matches(EMAIL_REG, t('Rules_email')),
     password: yup
       .string()
-      .required(t('required_field'))
-      .matches(PASSWORD_REG, t('rules_password')),
+      .required(t('Required_field'))
+      .matches(PASSWORD_REG, t('Rules_password')),
     confirmPassword: yup
       .string()
-      .required(t('required_field'))
-      .matches(PASSWORD_REG, t('rules_password'))
-      .oneOf([yup.ref('password'), ''], t("rules_confirm_password"))
+      .required(t('Required_field'))
+      .matches(PASSWORD_REG, t('Rules_password'))
+      .oneOf([yup.ref('password'), ''], t("Rules_confirm_password"))
   })
 
   const defaultValues: TDefaultValue = {
@@ -107,6 +107,7 @@ const RegisterPage: NextPage<TProps> = () => {
       }
       dispatch(resetInitialState())
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isError, isSuccess, message])
 
   return (
@@ -179,7 +180,7 @@ const RegisterPage: NextPage<TProps> = () => {
                       label={t('Email')}
                       onChange={onChange}
                       onBlur={onBlur}
-                      placeholder={t('enter_your_email')}
+                      placeholder={t('Enter_your_email')}
                       value={value}
                       error={Boolean(errors?.email)}
                       helperText={errors?.email?.message}
@@ -202,7 +203,7 @@ const RegisterPage: NextPage<TProps> = () => {
                       onChange={onChange}
                       onBlur={onBlur}
                       value={value}
-                      placeholder={t('enter_password')}
+                      placeholder={t('Enter_password')}
                       error={Boolean(errors?.password)}
                       helperText={errors?.password?.message}
                       type={showPassword ? 'text' : 'password'}
@@ -239,7 +240,7 @@ const RegisterPage: NextPage<TProps> = () => {
                       onChange={onChange}
                       onBlur={onBlur}
                       value={value}
-                      placeholder={t('enter_confirm_password')}
+                      placeholder={t('Enter_confirm_password')}
                       error={Boolean(errors?.confirmPassword)}
                       helperText={errors?.confirmPassword?.message}
                       type={showConfirmPassword ? 'text' : 'password'}

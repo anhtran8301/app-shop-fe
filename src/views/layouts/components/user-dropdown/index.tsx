@@ -1,5 +1,5 @@
 // ** React next
-import React from 'react'
+import React, { useEffect } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/router'
 
@@ -32,6 +32,10 @@ import { ROUTE_CONFIG } from 'src/configs/route'
 
 // ** Utilities
 import { toFullName } from 'src/utils'
+
+// ** Redux
+import { useSelector } from 'react-redux'
+import { RootState } from 'src/stores'
 
 type TProps = {}
 
@@ -69,7 +73,9 @@ const UserDropdown = (props: TProps) => {
 
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
 
-  const { user, logout } = useAuth()
+  const { user, logout, setUser } = useAuth()
+  const { userData } = useSelector((state: RootState) => state.auth)
+
   const permissionUser = user?.role?.permissions ?? []
 
   const open = Boolean(anchorEl)
@@ -98,6 +104,13 @@ const UserDropdown = (props: TProps) => {
     router.push(ROUTE_CONFIG.DASHBOARD)
     handleClose()
   }
+
+  useEffect(() => {
+    if (userData) {
+      setUser({...userData})
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [userData])
 
   return (
     <>
@@ -197,13 +210,13 @@ const UserDropdown = (props: TProps) => {
           </Box>
         </Box>
         <Divider />
-        
+
         {permissionUser.length > 0 && (
           <MenuItem onClick={handleNavigateManageSystem}>
             <Avatar>
               <IconifyIcon icon='arcticons:phone-manager' />
             </Avatar>{' '}
-            {t('manage_system')}
+            {t('Manage_system')}
           </MenuItem>
         )}
 
@@ -211,7 +224,7 @@ const UserDropdown = (props: TProps) => {
           <Avatar>
             <IconifyIcon icon='ph:user-thin' />
           </Avatar>{' '}
-          {t('my_profile')}
+          {t('My_profile')}
         </MenuItem>
 
         <MenuItem onClick={handleNavigateChangePassword}>

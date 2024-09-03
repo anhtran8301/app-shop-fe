@@ -17,6 +17,8 @@ export type ACLObj = {
  * We have just shown Admin and Client rules for demo purpose where
  * admin can manage everything and client can just visit ACL page
  */
+
+// ** Tạo ra rules quyền
 const defineRulesFor = (permissionUser: string[], permission?: string[]) => {
   const { can, rules } = new AbilityBuilder(AppAbility)
 
@@ -31,6 +33,8 @@ const defineRulesFor = (permissionUser: string[], permission?: string[]) => {
   return rules
 }
 
+
+// ** Xây dụng quyền
 export const buildAbilityFor = (permissionUser: string[], permission?: string[]): AppAbility => {
   return new AppAbility(defineRulesFor(permissionUser, permission), {
     // https://casl.js.org/v5/en/guide/subject-type-detection

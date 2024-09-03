@@ -60,10 +60,10 @@ const LoginPage: NextPage<TProps> = () => {
   const theme = useTheme()
 
   const schema = yup.object().shape({
-    email: yup.string().required(t('required_field')).matches(EMAIL_REG, 'The field is must email type'),
+    email: yup.string().required(t('Required_field')).matches(EMAIL_REG, 'The field is must email type'),
     password: yup
       .string()
-      .required(t('required_field'))
+      .required(t('Required_field'))
       .matches(PASSWORD_REG, 'The password is contain character, special character, number')
   })
 
@@ -87,7 +87,7 @@ const LoginPage: NextPage<TProps> = () => {
     if (!Object.keys(errors)?.length) {
       login({ ...data, rememberMe: isRemember }, err => {
         if (err?.response?.data?.typeError === 'INVALID') {
-          toast.error(t('the_email_or_password_wrong'))
+          toast.error(t('The_email_or_password_wrong'))
         }
       })
     }

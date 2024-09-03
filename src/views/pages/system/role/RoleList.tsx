@@ -144,18 +144,6 @@ const RoleListPage: NextPage<TProps> = () => {
     dispatch(deleteRoleAsync(openDeleteRole.id))
   }
 
-  // const PaginationComponent = () => {
-  //   return (
-  //     <CustomPagination
-  //       onChangePagination={handleOnchangePagination}
-  //       pageSizeOptions={PAGE_SIZE_OPTION}
-  //       pageSize={pageSize}
-  //       page={page}
-  //       rowLength={roles.total}
-  //     />
-  //   )
-  // }
-
   const columns: GridColDef[] = [
     {
       field: 'name',
@@ -176,6 +164,7 @@ const RoleListPage: NextPage<TProps> = () => {
             {!row?.permissions?.some((per: string) => ['ADMIN.GRANTED', 'BASIC.PUBLIC']?.includes(per)) ? (
               <>
                 <GridEdit
+                  disabled={!UPDATE}
                   onClick={() =>
                     setOpenCreateEdit({
                       open: true,
@@ -184,6 +173,7 @@ const RoleListPage: NextPage<TProps> = () => {
                   }
                 />
                 <GridDelete
+                  disabled={!DELETE}
                   onClick={() =>
                     setOpenDeleteRole({
                       open: true,
@@ -249,6 +239,7 @@ const RoleListPage: NextPage<TProps> = () => {
       toast.error(t('Delete_role_error'))
       dispatch(resetInitialState())
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isSuccessDelete, isErrorDelete, messageErrorDelete])
 
   return (
@@ -259,8 +250,8 @@ const RoleListPage: NextPage<TProps> = () => {
         handleClose={handleCloseConfirmDeleteRole}
         handleCancel={handleCloseConfirmDeleteRole}
         handleConfirm={handleDeleteRole}
-        title={t('title_delete_role')}
-        description={t('confirm_delete_role')}
+        title={t('Title_delete_role')}
+        description={t('Confirm_delete_role')}
       />
       <CreateEditRole open={openCreateEdit.open} onClose={handleCloseCreateEdit} idRole={openCreateEdit.id} />
       {isLoading && <Spinner />}
@@ -275,11 +266,12 @@ const RoleListPage: NextPage<TProps> = () => {
       >
         <Grid container sx={{ height: '100%', width: '100%' }}>
           <Grid item md={4} xs={12}>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 2 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', mb: 4 }}>
               <Box sx={{ width: '200px' }}>
                 <InputSearch value={searchBy} onChange={(value: string) => setSearchBy(value)} />
               </Box>
               <GridCreate
+                disabled={!CREATE}
                 onClick={() => {
                   setOpenCreateEdit({
                     open: true,

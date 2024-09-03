@@ -9,6 +9,10 @@ const StyleCustomDataGrid = styled(DataGrid)<DataGridProps>(({ theme }) => ({
   },
   ".MuiDataGrid-selectedRowCount": {
     display: "none"
+  },
+  ".MuiDataGrid-columnHeaderTitle": {
+    textTransform: "capitalize",
+    color: theme.palette.primary.main
   }
 }))
 

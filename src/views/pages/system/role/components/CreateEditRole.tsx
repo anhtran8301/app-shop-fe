@@ -49,7 +49,7 @@ const CreateEditRole = (props: ICreateEditRole) => {
   const dispatch: AppDispatch = useDispatch()
 
   const schema = yup.object().shape({
-    name: yup.string().required(t('required_field'))
+    name: yup.string().required(t('Required_field'))
   })
 
   const defaultValues = {
@@ -149,7 +149,7 @@ const CreateEditRole = (props: ICreateEditRole) => {
                     onChange={onChange}
                     onBlur={onBlur}
                     value={value}
-                    placeholder={t('enter_name')}
+                    placeholder={t('Enter_name')}
                     error={Boolean(errors?.name)}
                     helperText={errors?.name?.message}
                   />
