@@ -91,7 +91,7 @@ const CreateEditUser = (props: ICreateEditUser) => {
       ? yup.string().nonNullable()
       : yup.string().required(t('Required_field')).matches(PASSWORD_REG, t('Rules_password')),
     role: yup.string().required(t('Required_field')),
-    phoneNumber: yup.string().required(t('Required_field')).min(8, 'The phone number min is 8 numbers'),
+    phoneNumber: yup.string().required(t('Required_field')).min(9, 'The phone number min is 9 numbers'),
     address: yup.string().nonNullable(),
     city: yup.string().nonNullable(),
     status: yup.number().nonNullable()
@@ -141,7 +141,8 @@ const CreateEditUser = (props: ICreateEditUser) => {
             email: data.email,
             address: data?.address,
             city: data?.city,
-            avatar: avatar
+            avatar: avatar,
+            status: data?.status ? 1 : 0
           })
         )
       } else {
@@ -150,7 +151,7 @@ const CreateEditUser = (props: ICreateEditUser) => {
             firstName,
             middleName,
             lastName,
-            password: data.password || "",
+            password: data.password || '',
             phoneNumber: data.phoneNumber,
             role: data?.role,
             email: data.email,
@@ -170,7 +171,7 @@ const CreateEditUser = (props: ICreateEditUser) => {
       .then(res => {
         const data = res.data
         if (data) {
-          console.log({data})
+          console.log({ data })
           reset({
             fullName: toFullName(data?.lastName, data?.middleName, data?.firstName, i18n.language),
             password: data.password,
@@ -215,6 +216,8 @@ const CreateEditUser = (props: ICreateEditUser) => {
       reset({
         ...defaultValues
       })
+      setAvatar('')
+      setShowPassword(false)
     } else if (id) {
       fetchDetailsUser(id)
     }
@@ -344,47 +347,52 @@ const CreateEditUser = (props: ICreateEditUser) => {
                             required: true
                           }}
                           render={({ field: { onChange, onBlur, value } }) => {
-                            console.log({value})
+                            console.log({ value })
 
                             return (
-                              (
-                            
-                          
-                                <Box>
-                                  <InputLabel
-                                    sx={{
-                                      fontSize: '13px',
-                                      marginBottom: '4px',
-                                      display: 'block',
+                              <Box>
+                                <InputLabel
+                                  sx={{
+                                    fontSize: '13px',
+                                    marginBottom: '4px',
+                                    display: 'block',
+                                    color: errors?.role
+                                      ? theme.palette.error.main
+                                      : `rgba(${theme.palette.customColors.main}, 0.42)`
+                                  }}
+                                >
+                                  {t('Role')}{' '}
+                                  <span
+                                    style={{
                                       color: errors?.role
                                         ? theme.palette.error.main
                                         : `rgba(${theme.palette.customColors.main}, 0.42)`
                                     }}
                                   >
-                                    {t('Role')}
-                                  </InputLabel>
-                                  <CustomSelect
-                                    fullWidth
-                                    onChange={onChange}
-                                    options={optionRoles}
-                                    error={Boolean(errors?.role)}
-                                    onBlur={onBlur}
-                                    value={value}
-                                    placeholder={t('Enter_your_role')}
-                                  />
-                                  {errors?.role && (
-                                    <FormHelperText
-                                      sx={{
-                                        color: errors?.role
-                                          ? theme.palette.error.main
-                                          : `rgba(${theme.palette.customColors.main}, 0.42)`
-                                      }}
-                                    >
-                                      {errors?.role?.message}
-                                    </FormHelperText>
-                                  )}
-                                </Box>
-                              )
+                                    *
+                                  </span>
+                                </InputLabel>
+                                <CustomSelect
+                                  fullWidth
+                                  onChange={onChange}
+                                  options={optionRoles}
+                                  error={Boolean(errors?.role)}
+                                  onBlur={onBlur}
+                                  value={value}
+                                  placeholder={t('Enter_your_role')}
+                                />
+                                {errors?.role && (
+                                  <FormHelperText
+                                    sx={{
+                                      color: errors?.role
+                                        ? theme.palette.error.main
+                                        : `rgba(${theme.palette.customColors.main}, 0.42)`
+                                    }}
+                                  >
+                                    {errors?.role?.message}
+                                  </FormHelperText>
+                                )}
+                              </Box>
                             )
                           }}
                           name='role'
@@ -465,6 +473,7 @@ const CreateEditUser = (props: ICreateEditUser) => {
                           control={control}
                           render={({ field: { onChange, onBlur, value } }) => (
                             <CustomTextField
+                              required
                               fullWidth
                               label={t('Full_name')}
                               onChange={onChange}
