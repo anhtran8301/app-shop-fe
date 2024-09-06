@@ -12,6 +12,7 @@
     "Update": "Cập nhật",
     "Logout": "Đăng xuất",
     "Name": "Tên",
+    "Status": "Trạng thái",
     "Actions": "Thao tác",
     "Create": "Tạo",
     "Edit": "Sửa",
@@ -71,6 +72,9 @@
     "Forgot_password": "Quên mật khẩu?",
     "Remember_me": "Nhớ mật khẩu",
     "Data_existed_in_system": "Dữ liệu đã tồn tại trong hệ thống",
+    "Create_user_success": "Tạo người dùng thành công",
+    "Create_user_error": "Tạo người dùng thất bại",
+    "Update_user_success": "Cập nhật người dùng thành công",
     "Update_role_success": "Cập nhật nhóm vai trò thành công",
     "Update_role_error": "Cập nhật nhóm vai trò thất bại",
     "Create_role_success": "Tạo nhóm vai trò thành công",
@@ -84,6 +88,11 @@
     "Block": "Tạm khóa",
     "Confirm": "Xác nhận",
     "Cancel": "Hủy bỏ",
-    "Confirm_delete_user": "Xác nhận xác người dùng",
-    "Title_delete_user": "Xóa người dùng"
+    "Confirm_delete_user": "Bạn có chắc muốn xóa người dùng này",
+    "Title_delete_user": "Xóa người dùng",
+    "Confirm_delete_multiple_user": "Bạn có chắc muốn xóa những người dùng này?",
+    "Title_delete_multiple_user": "Xóa nhiều người dùng",
+    "Selected": "Đã chọn",
+    "Delete_multiple_user_success": "Xóa nhiều người dùng thành công",
+    "Delete_multiple_user_error": "Xóa nhiều người dùng thất bại"
 }

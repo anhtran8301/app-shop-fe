@@ -33,3 +33,7 @@ export type TParamsEditUser = {
   status?: number
   city?: string
 }
+
+export type TParamsDeleteMultipleUser = {
+  userIds: string[]
+}
